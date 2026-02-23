@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atharv Naik | Portfolio</title>
+
+<style>
+/* ===== Custom Color Theme ===== */
+:root {
+    --primary: #0f172a;
+    --secondary: #1e293b;
+    --accent: #38bdf8;
+    --light: #f1f5f9;
+}
+
+/* ===== Global Styling ===== */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: var(--primary);
+    color: var(--light);
+}
+
+header {
+    background: var(--secondary);
+    padding: 20px;
+    text-align: center;
+    border-bottom: 3px solid var(--accent);
+}
+
+header h1 {
+    margin: 0;
+    color: var(--accent);
+}
+
+nav {
+    margin-top: 10px;
+}
+
+nav a {
+    color: var(--light);
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: bold;
+}
+
+nav a:hover {
+    color: var(--accent);
+}
+
+section {
+    padding: 40px 20px;
+    max-width: 1000px;
+    margin: auto;
+}
+
+h2 {
+    color: var(--accent);
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 10px;
+}
+
+/* ===== Skills ===== */
+.skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.skill {
+    background: var(--secondary);
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid var(--accent);
+}
+
+/* ===== Projects ===== */
+.project {
+    background: var(--secondary);
+    padding: 20px;
+    margin: 15px 0;
+    border-left: 5px solid var(--accent);
+}
+
+/* ===== Form Styling ===== */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+input, textarea {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+}
+
+button {
+    background: var(--accent);
+    color: black;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+button:hover {
+    background: #0ea5e9;
+}
+
+#successMessage {
+    color: lightgreen;
+    font-weight: bold;
+}
+
+/* ===== Feedback Display ===== */
+.feedback-box {
+    background: var(--secondary);
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 5px;
+}
+
+/* ===== Footer ===== */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: var(--secondary);
+    margin-top: 30px;
+    border-top: 3px solid var(--accent);
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 768px) {
+    nav a {
+        display: block;
+        margin: 10px 0;
+    }
+
+    .skills-list {
+        flex-direction: column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Atharv Naik</h1>
+    <nav>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+    </nav>
+</header>
+
+<section id="about">
+    <h2>About Me</h2>
+    <p>
+         Hello! I am Atharv Naik, an enthusiastic and dedicated developer with a strong 
+        interest in Artificial Intelligence, Computer Vision, and Smart Automation Systems. 
+        I enjoy transforming innovative ideas into practical solutions that solve real-world problems..
+    </p>
+</section>
+
+<section id="skills">
+    <h2>Skills</h2>
+    <div class="skills-list">
+        <div class="skill">HTML5</div>
+        <div class="skill">CSS3</div>
+        <div class="skill">JavaScript</div>
+        <div class="skill">Python</div>
+        <div class="skill">JAVA</div>
+        <div class="skill">Sql</div>
+    </div>
+</section>
+
+<section id="projects">
+    <h2>Projects</h2>
+
+    <div class="project">
+        <h3>Smart Crowd Surveillance System</h3>
+        <p>
+            An AI-based system that detects crowd density using computer vision.
+            It helps in monitoring public spaces, preventing overcrowding, and 
+            improving safety management using real-time analytics.
+        </p>
+    </div>
+
+    <div class="project">
+        <h3>Student Performance Analyzer</h3>
+        <p>
+            A web-based system that analyzes student marks and generates performance
+            insights using data visualization techniques.
+        </p>
+    </div>
+</section>
+
+<section id="contact">
+    <h2>Contact / Feedback</h2>
+
+    <form id="feedbackForm">
+        <input type="text" id="name" placeholder="Enter your name">
+        <input type="email" id="email" placeholder="Enter your email">
+        <textarea id="message" rows="4" placeholder="Enter your feedback"></textarea>
+        <button type="submit">Submit</button>
+        <p id="successMessage"></p>
+    </form>
+
+    <div id="feedbackList"></div>
+</section>
+
+
+
+<script>
+// Load feedback from Local Storage on page load
+window.onload = function() {
+    displayFeedback();
+};
+
+document.getElementById("feedbackForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    let name = document.getElementById("name").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let message = document.getElementById("message").value.trim();
+    let successMessage = document.getElementById("successMessage");
+
+    // ===== Validation =====
+    if (name === "") {
+        alert("Name cannot be empty!");
+        return;
+    }
+
+    let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+    if (!email.match(emailPattern)) {
+        alert("Please enter a valid email!");
+        return;
+    }
+
+    // Store feedback in Local Storage
+    let feedback = { name, email, message };
+    let feedbackData = JSON.parse(localStorage.getItem("feedbackData")) || [];
+    feedbackData.push(feedback);
+    localStorage.setItem("feedbackData", JSON.stringify(feedbackData));
+
+    successMessage.textContent = "Feedback submitted successfully!";
+
+    document.getElementById("feedbackForm").reset();
+
+    displayFeedback();
+});
+
+// Display feedback on page
+function displayFeedback() {
+    let feedbackList = document.getElementById("feedbackList");
+    feedbackList.innerHTML = "";
+
+    let feedbackData = JSON.parse(localStorage.getItem("feedbackData")) || [];
+
+    feedbackData.forEach(function(item) {
+        let div = document.createElement("div");
+        div.classList.add("feedback-box");
+        div.innerHTML = `<strong>${item.name}</strong> (${item.email})<br>${item.message}`;
+        feedbackList.appendChild(div);
+    });
+}
+</script>
+
+</body>
+</html>
